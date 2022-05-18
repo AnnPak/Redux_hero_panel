@@ -1,12 +1,11 @@
-import { useCallback } from 'react';
-import {useHttp} from '../../hooks/http.hook';
-import { useDispatch } from 'react-redux';
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import { heroAdded, heroesFetchingError } from '../../actions';
-
+import { heroAdded, heroesFetchingError, filtersFetched } from '../../actions';
+import {useHttp} from '../../hooks/http.hook';
 
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
@@ -21,6 +20,16 @@ import { heroAdded, heroesFetchingError } from '../../actions';
 const HeroesAddForm = () => {
     const {request} = useHttp();
     const dispatch = useDispatch();
+
+    const {filters} = useSelector(state => state);
+
+    useEffect(() => {
+        request("http://localhost:3001/filters", 'GET')
+            .then(data => dispatch(filtersFetched(data)))
+            .catch(() => dispatch(heroesFetchingError()))
+
+        // eslint-disable-next-line
+    }, []);
 
     const addNewItem = useCallback((values) => {
         request('http://localhost:3001/heroes', 'POST', JSON.stringify(values))
@@ -84,10 +93,13 @@ const HeroesAddForm = () => {
                             name="element"
                             as="select">
                             <option >Я владею элементом...</option>
-                            <option value="fire">Огонь</option>
-                            <option value="water">Вода</option>
-                            <option value="wind">Ветер</option>
-                            <option value="earth">Земля</option>
+                            {
+                                filters.map((item, i) => {
+                                    return(
+                                        <option value={item.name} key={i}>{item.label}</option>
+                                    )
+                                })
+                            }
                         </Field>
 
                         <ErrorMessage className="error" name="element" component="div" />

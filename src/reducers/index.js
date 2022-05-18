@@ -38,6 +38,11 @@ const reducer = (state = initialState, action) => {
                 heroes: newHeroes,
                 heroesLoadingStatus: 'add'
             }
+        case 'FILTERS_FETCHED':
+            return {
+                ...state,
+                filters: action.payload,
+            }
         default: return state
     }
 }
