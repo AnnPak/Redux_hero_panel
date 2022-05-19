@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
+import Spinner from '../spinner/Spinner';
 import {useHttp} from '../../hooks/http.hook';
 import { filtersFetched, filtersFetchingError, activeFilterChanged, filtersFetching } from '../../actions';
 
@@ -16,7 +17,7 @@ const HeroesFilters = () => {
     const {request} = useHttp();
     const dispatch = useDispatch();
 
-    const {filters} = useSelector(state => state);
+    const { filters, filtersLoadingStatus, activeFilter } = useSelector(state => state);
 
     useEffect(() => {
         dispatch(filtersFetching());
@@ -31,24 +32,36 @@ const HeroesFilters = () => {
         dispatch(activeFilterChanged(element));
     }
 
+    if(filtersLoadingStatus === "loading"){
+        <Spinner/>
+    }else if (filtersLoadingStatus === "error"){
+        <h5 className="text-center mt-5">Ошибка загрузки</h5>
+    }
+    
+    const RenderFilters = () => {
+        return(
+            filters.map((item, i) => {
+                let isActive = item.name === activeFilter ? ' active' : '';
+                let className = 'btn ' + item.className + isActive;
+                return(
+                    <button 
+                        className={className} 
+                        key={i}
+                        onClick={() => filterHeros(item.name)}>
+                        {item.label}
+                    </button>
+                )
+            })
+
+        )
+    }
+
     return (
         <div className="card shadow-lg mt-4">
             <div className="card-body">
                 <p className="card-text">Отфильтруйте героев по элементам</p>
                 <div className="btn-group">
-                    {
-                        filters.map((item, i) => {
-                            let className = 'btn ' + item.className;
-                            return(
-                                <button 
-                                    className={className} 
-                                    key={i}
-                                    onClick={() => filterHeros(item.name)}>
-                                    {item.label}
-                                </button>
-                            )
-                        })
-                    }
+                    <RenderFilters/>
                 </div>
             </div>
         </div>
