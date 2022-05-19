@@ -87,8 +87,7 @@ const HeroesAddForm = () => {
                             <option >Я владею элементом...</option>
                             {
                                 filters.map((item, i) => {
-                                    if(i==0) return;
-
+                                    if( i===0 ) return '';
                                     return(
                                         <option value={item.name} key={i}>{item.label}</option>
                                     )

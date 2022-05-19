@@ -35,7 +35,9 @@ const reducer = (state = initialState, action) => {
             return{
                 ...state,
                 heroes: newHeroesList,
-                heroesLoadingStatus: 'delete'
+                heroesLoadingStatus: 'delete',
+                filteredHeroes: state.activeFilter === "all" ? newHeroesList : 
+                newHeroesList.filter(item => item.element === state.activeFilter)
             }
         case 'HERO_ADD':
             const newHeroes = [...state.heroes, action.payload]
