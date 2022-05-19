@@ -21,7 +21,7 @@ const HeroesAddForm = () => {
     const {request} = useHttp();
     const dispatch = useDispatch();
 
-    const {filters} = useSelector(state => state);
+    const {filters} = useSelector(state => state.filters);
 
     const addNewItem = useCallback((values) => {
         request('http://localhost:3001/heroes', 'POST', JSON.stringify(values))
