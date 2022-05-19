@@ -15,9 +15,17 @@ import './heroesList.scss'
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-    const {heroes, heroesLoadingStatus, activeFilter, filteredHeroes} = useSelector(state => state);
+    const { heroesLoadingStatus, activeFilter, heroes} = useSelector(state => state);
     const dispatch = useDispatch();
     const {request} = useHttp();
+
+    const filteredHeroes = useSelector(state => {
+        if (activeFilter === 'all') {
+            return heroes;
+        } else {
+            return heroes.filter(item => item.element === activeFilter);
+        }
+    })
 
     useEffect(() => {
         dispatch(heroesFetching());
@@ -74,8 +82,7 @@ const HeroesList = () => {
             ) 
         })
     }
-    const elements = activeFilter === 'all' ?
-    renderHeroesList(heroes) : renderHeroesList(filteredHeroes)
+    const elements =  renderHeroesList(filteredHeroes)
     return (
         <TransitionGroup component="ul">
             {elements}
