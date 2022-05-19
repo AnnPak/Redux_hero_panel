@@ -1,7 +1,10 @@
 const initialState = {
     heroes: [],
     heroesLoadingStatus: 'idle',
-    filters: []
+    filters: [],
+    filtersLoadingStatus: 'idle',
+    activeFilter: 'all',
+    filteredHeroes: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -15,7 +18,10 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 heroes: action.payload,
-                heroesLoadingStatus: 'idle'
+                heroesLoadingStatus: 'idle',
+                filteredHeroes: state.activeFilter === "all" ? action.payload : 
+                action.payload.filter(item => item.element === state.activeFilter)
+
             }
         case 'HEROES_FETCHING_ERROR':
             return {
@@ -31,18 +37,40 @@ const reducer = (state = initialState, action) => {
                 heroes: newHeroesList,
                 heroesLoadingStatus: 'delete'
             }
-        case 'HEROES_ADDING_ITEM':
+        case 'HERO_ADD':
             const newHeroes = [...state.heroes, action.payload]
             return{
                 ...state,
                 heroes: newHeroes,
                 heroesLoadingStatus: 'add'
             }
+        case 'FILTERS_FETCHING':
+            return {
+                ...state,
+                filtersLoadingStatus: 'loading'
+            }
+        
         case 'FILTERS_FETCHED':
             return {
                 ...state,
                 filters: action.payload,
+                filtersLoadingStatus: 'idle'
             }
+        case 'FILTERS_FETCHING_ERROR':
+            return {
+                ...state,
+                filtersLoadingStatus: 'error'
+            }
+
+        case 'ACTIVE_FILTER_CHANGED':
+            return {
+                ...state,
+                activeFilter: action.payload,
+                filteredHeroes: action.payload === 'all' ? 
+                                state.heroes :
+                                state.heroes.filter(item => item.element === action.payload)
+            }
+            
         default: return state
     }
 }
