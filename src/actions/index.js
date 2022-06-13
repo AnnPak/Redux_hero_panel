@@ -30,30 +30,38 @@ export const heroesFetching = createAction('HEROES_FETCHING');
 // }
 export const heroesFetched = createAction('HEROES_FETCHED')
 
-export const heroesFetchingError = () => {
-    return {
-        type: 'HEROES_FETCHING_ERROR'
-    }
-}
+// export const heroesFetchingError = () => {
+//     return {
+//         type: 'HEROES_FETCHING_ERROR'
+//     }
+// }
 
-export const filtersFetching = () => {
-    return {
-        type: 'FILTERS_FETCHING'
-    }
-}
+export const heroesFetchingError = createAction('HEROES_FETCHING_ERROR');
 
-export const filtersFetched = (filters) => {
-    return {
-        type: 'FILTERS_FETCHED',
-        payload: filters
-    }
-}
+// export const filtersFetching = () => {
+//     return {
+//         type: 'FILTERS_FETCHING'
+//     }
+// }
 
-export const filtersFetchingError = () => {
-    return {
-        type: 'FILTERS_FETCHING_ERROR'
-    }
-}
+export const filtersFetching = createAction('FILTERS_FETCHING');
+
+// export const filtersFetched = (filters) => {
+//     return {
+//         type: 'FILTERS_FETCHED',
+//         payload: filters
+//     }
+// }
+
+export const filtersFetched =  createAction('FILTERS_FETCHED');
+
+// export const filtersFetchingError = () => {
+//     return {
+//         type: 'FILTERS_FETCHING_ERROR'
+//     }
+// }
+
+export const filtersFetchingError =  createAction('FILTERS_FETCHING_ERROR');
 
 export const activeFilterChanged = (element) => {
     return {
@@ -62,17 +70,21 @@ export const activeFilterChanged = (element) => {
     }
 }
 
-export const heroDeleted = (id) => {
-    return {
-        type: 'HEROES_DELETING_ITEM',
-        payload: id,
-    }
-}
+export const heroDeleted =  createAction('HEROES_DELETING_ITEM');
 
-export const heroAdded = (heroes) => {
-    return {
-        type: 'HERO_ADD',
-        payload: heroes,
-    }
-}
+// export const heroDeleted = (id) => {
+//     return {
+//         type: 'HEROES_DELETING_ITEM',
+//         payload: id,
+//     }
+// }
+
+// export const heroAdded = (heroes) => {
+//     return {
+//         type: 'HERO_ADD',
+//         payload: heroes,
+//     }
+// }
+
+export const heroAdded =  createAction('HERO_ADD');
 
