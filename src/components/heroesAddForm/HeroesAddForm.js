@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import { heroAdded, heroesFetchingError } from '../../actions';
+import { heroAdded, heroesFetchingError } from '../heroesList/heroesSlice';
 import {useHttp} from '../../hooks/http.hook';
 
 // Задача для этого компонента:
