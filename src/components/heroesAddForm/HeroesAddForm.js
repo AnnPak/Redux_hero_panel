@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import { heroAdded, heroesFetchingError } from '../heroesList/heroesSlice';
+import { heroAdded } from '../heroesList/heroesSlice';
 import {useHttp} from '../../hooks/http.hook';
 
 // Задача для этого компонента:
@@ -26,7 +26,7 @@ const HeroesAddForm = () => {
     const addNewItem = useCallback((values) => {
         request('http://localhost:3001/heroes', 'POST', JSON.stringify(values))
         .then(data => dispatch(heroAdded(data)))
-        .catch(() => dispatch(heroesFetchingError()))
+        .catch(err => console.log(err))
 
     }, [request])
 

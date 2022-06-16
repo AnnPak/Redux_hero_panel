@@ -3,8 +3,7 @@ import { useEffect } from 'react';
 
 import Spinner from '../spinner/Spinner';
 import {useHttp} from '../../hooks/http.hook';
-import { fetchFilters } from '../../actions';
-import { activeFilterChanged } from './filtersSlice';
+import { activeFilterChanged, fetchFilters } from './filtersSlice';
 
 
 // Задача для этого компонента:
