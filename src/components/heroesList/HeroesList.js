@@ -36,8 +36,6 @@ const HeroesList = () => {
     const dispatch = useDispatch();
     const {request} = useHttp();
 
-
-
     useEffect(() => {
         dispatch(fetchHeroes(request));
 
@@ -74,9 +72,10 @@ const HeroesList = () => {
         return arr.map(({id, ...props}) => {
             return (
                 <CSSTransition
+                    key={id}
                     timeout={0}
                     classNames="hero">
-                       <HeroesListItem key={id} {...props} onDelete ={() => onDelete(id)}/>
+                       <HeroesListItem {...props} onDelete ={() => onDelete(id)}/>
                 </CSSTransition>
             ) 
         })

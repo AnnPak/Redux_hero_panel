@@ -1,11 +1,11 @@
-import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import {selectAll } from '../heroesFilters/filtersSlice';
+import store from '../../store';
 import * as Yup from 'yup';
 
 import { heroAdded } from '../heroesList/heroesSlice';
-import {useHttp} from '../../hooks/http.hook';
+
 
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
@@ -18,17 +18,8 @@ import {useHttp} from '../../hooks/http.hook';
 // данных из фильтров
 
 const HeroesAddForm = () => {
-    const {request} = useHttp();
-    const dispatch = useDispatch();
 
-    const {filters} = useSelector(state => state.filters);
-
-    const addNewItem = useCallback((values) => {
-        request('http://localhost:3001/heroes', 'POST', JSON.stringify(values))
-        .then(data => dispatch(heroAdded(data)))
-        .catch(err => console.log(err))
-
-    }, [request])
+    const filters = selectAll(store.getState());
 
     return (
         <Formik
@@ -46,7 +37,7 @@ const HeroesAddForm = () => {
                     .required('Обязательное поле')
             })}
 
-            onSubmit={data => addNewItem(data)}
+            onSubmit={data => heroAdded(data)}
         >
             {({ setFieldValue }) => (
                 <Form className="border p-4 shadow-lg rounded">
@@ -65,7 +56,6 @@ const HeroesAddForm = () => {
                     <div className="mb-3">
                         <label htmlFor="text" className="form-label fs-4">Описание</label>
                         <Field
-                            name="text"
                             name="description"
                             className="form-control"
                             id="text"
